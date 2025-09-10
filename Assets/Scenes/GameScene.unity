@@ -626,6 +626,8 @@ MonoBehaviour:
   maxDistance: 10
   minY: -1
   maxY: 2
+  spikePrefab: {fileID: 8008027977124917810, guid: 245a478395eea0d4e97704870798212d, type: 3}
+  spikeChance: 0.3
   player: {fileID: 989249736}
 --- !u!4 &850320256
 Transform:
