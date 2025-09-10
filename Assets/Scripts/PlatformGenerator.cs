@@ -3,7 +3,7 @@ using UnityEngine;
 public class PlatformGenerator : MonoBehaviour
 {
     [Header("Platform Settings")]
-    public GameObject platformPrefab;
+    public GameObject[] platformPrefabs; // multiple prefabs
     public int initialPlatforms = 5;
     public float minDistance = 2f;
     public float maxDistance = 4f;
@@ -17,26 +17,30 @@ public class PlatformGenerator : MonoBehaviour
 
     void Start()
     {
-        // 1) Spawn first platform under player
+        // 1) First platform under player
         Vector3 startPosition = new Vector3(player.position.x, player.position.y - 1.5f, 0f);
-        GameObject firstPlatform = Instantiate(platformPrefab, startPosition, Quaternion.identity);
+        GameObject firstPlatform = Instantiate(GetRandomPlatform(), startPosition, Quaternion.identity);
         lastPlatform = firstPlatform.transform;
+
+        AddLife(firstPlatform);
 
         // 2) Generate the rest
         Vector3 spawnPosition = lastPlatform.position;
         for (int i = 0; i < initialPlatforms - 1; i++)
         {
             spawnPosition.x += Random.Range(minDistance, maxDistance);
-            spawnPosition.y = Random.Range(minY, maxY);
+            spawnPosition.y = lastPlatform.position.y + Random.Range(minY, maxY);
 
-            GameObject newPlatform = Instantiate(platformPrefab, spawnPosition, Quaternion.identity);
+            GameObject newPlatform = Instantiate(GetRandomPlatform(), spawnPosition, Quaternion.identity);
             lastPlatform = newPlatform.transform;
+
+            AddLife(newPlatform);
         }
     }
 
     void Update()
     {
-        if (Vector2.Distance(player.position, lastPlatform.position) < 5f)
+        if (Vector2.Distance(player.position, lastPlatform.position) < 8f)
         {
             SpawnPlatform();
         }
@@ -46,9 +50,24 @@ public class PlatformGenerator : MonoBehaviour
     {
         Vector3 spawnPosition = lastPlatform.position;
         spawnPosition.x += Random.Range(minDistance, maxDistance);
-        spawnPosition.y = Random.Range(minY, maxY);
+        spawnPosition.y = lastPlatform.position.y + Random.Range(minY, maxY);
 
-        GameObject newPlatform = Instantiate(platformPrefab, spawnPosition, Quaternion.identity);
+        GameObject newPlatform = Instantiate(GetRandomPlatform(), spawnPosition, Quaternion.identity);
         lastPlatform = newPlatform.transform;
+
+        AddLife(newPlatform);
+    }
+
+    // Pick a random prefab from the array
+    GameObject GetRandomPlatform()
+    {
+        int index = Random.Range(0, platformPrefabs.Length);
+        return platformPrefabs[index];
+    }
+
+    void AddLife(GameObject platform)
+    {
+        PlatformLife life = platform.AddComponent<PlatformLife>();
+        life.player = player;
     }
 }

@@ -616,7 +616,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5f2c3c66d28e4a4fbacd16eb2838d1a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  platformPrefab: {fileID: 5731262857480589102, guid: 26aaebab25e80d04abf9f8842970396a, type: 3}
+  platformPrefabs:
+  - {fileID: 2783028663940958695, guid: 20d512cab39eb124a801359877e2f951, type: 3}
+  - {fileID: 7150034146580751609, guid: 0f565fbd550a1f7488ec93e97b8c194d, type: 3}
+  - {fileID: 2612325759331096472, guid: 260a69693a8c7364c8114e11aaecd8d7, type: 3}
+  - {fileID: 5731262857480589102, guid: 26aaebab25e80d04abf9f8842970396a, type: 3}
   initialPlatforms: 5
   minDistance: 8
   maxDistance: 10
